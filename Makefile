@@ -10,7 +10,7 @@ TWEAK_NAME = CacheClearerX
 CacheClearerX_FILES = Tweak.xm
 CacheClearerX_CFLAGS = -Wno-deprecated-declarations
 CacheClearerX_FRAMEWORKS = CydiaSubstrate UIKit MobileCoreServices CoreGraphics CoreFoundation Foundation
-CacheClearerX_PRIVATE_FRAMEWORKS = SpringBoardServices Preferences
+CacheClearerX_PRIVATE_FRAMEWORKS = Preferences
 CacheClearerX_LDFLAGS = -Wl,-segalign,4000
 
 include $(THEOS_MAKE_PATH)/tweak.mk
