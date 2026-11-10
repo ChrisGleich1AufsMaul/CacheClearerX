@@ -23,14 +23,15 @@ jobs:
       run: |
         cd /tmp
         git clone https://github.com/theos/theos.git
-        echo "export PATH=$PATH:/tmp/theos/bin" >> $GITHUB_ENV
+        echo "THEOS=/tmp/theos" >> $GITHUB_ENV
+        echo "PATH=$PATH:/tmp/theos/bin" >> $GITHUB_ENV
 
     - name: Make clean
-      run: make clean
+      run: THEOS=/tmp/theos make clean
 
     - name: Make package
       run: |
-        make package
+        THEOS=/tmp/theos make package
         ls -la packages/
 
     - name: Upload artifact
