@@ -1,0 +1,39 @@
+name: Build Package
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y dpkg-dev liblxc debhelper
+
+    - name: Set up Theos
+      run: |
+        cd /tmp
+        git clone https://github.com/theos/theos.git
+        echo "export PATH=$PATH:/tmp/theos/bin" >> $GITHUB_ENV
+
+    - name: Make clean
+      run: make clean
+
+    - name: Make package
+      run: |
+        make package
+        ls -la packages/
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: package
+        path: packages/
