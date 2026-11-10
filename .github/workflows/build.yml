@@ -6,34 +6,6 @@ on:
   pull_request:
     branches: [ master ]
   workflow_dispatch:
-Was jetzt ist:
-- Die .github/workflows/build.yml ist auf deinem Repo lokal korrigiert mit:
-  - runs-on: macos-latest (richtigain)
-  - brew install dpkg (vorher fehlende dm.pl)
-  - _THEOS_PLATFORM_DPKG_DEB=dpkg-deb (dpkg statt des Standard-Tools verwenden)
-- Aber die Datei wurde noch nicht nach GitHub hochgeladen, daher startet der Workflow noch
-  nicht.
-
-Du musst die Datei selbst auf GitH
-
-1. Gehe zu: https://github.com/ChrarerX
-2. Klicke .github/workflows/ → "Add file" → "Create new file"
-3. Pfad: .github/workflows/build.y
-4. Inhalt: (den YAML-Text kopieren, den ich gerade erstellt habe)
-5. Commit message: "fix dpkg for deb packaging"
-6. Klicke "Commit changes"
-7. Gehe danach zu Actions → "Build Package" – du solltest nun den laufenden (oder einen "Run workflow"-Button sehen).
-
-Der finale YAML-Text (kann direkt kopiert werden):
-
-name: Build Package
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  workflow_dispatch:
 
 jobs:
   build:
@@ -42,10 +14,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Theos
+    - name: Set up Theos (with submodules)
       run: |
         cd /tmp
-        git clone https://github.c
+        git clone --recursive https://github.com/theos/theos.git
         echo "THEOS=/tmp/theos" >> $GITHUB_ENV
         echo "PATH=$PATH:/tmp/theos/bin" >> $GITHUB_ENV
 
@@ -57,7 +29,7 @@ jobs:
 
     - name: Make package
       run: |
-        _THEOS_PLATFORM_DPKG_DEB=dake package
+        THEOS=/tmp/theos make package
         ls -la packages/
 
     - name: Upload artifact
