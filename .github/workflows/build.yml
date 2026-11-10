@@ -17,7 +17,7 @@ jobs:
     - name: Set up environment
       run: |
         sudo apt-get update
-        sudo apt-get install -y dpkg-dev liblxc debhelper
+        sudo apt-get install -y dpkg-dev debhelper
 
     - name: Set up Theos
       run: |
