@@ -17,9 +17,15 @@ jobs:
     - name: Set up Theos (with submodules)
       run: |
         cd /tmp
+        rm -rf theos
         git clone --recursive https://github.com/theos/theos.git
         echo "THEOS=/tmp/theos" >> $GITHUB_ENV
         echo "PATH=$PATH:/tmp/theos/bin" >> $GITHUB_ENV
+
+    - name: Verify Theos files
+      run: |
+        echo "THEOS=$THEOS"
+        ls -la /tmp/theos/makefiles/common.mk /tmp/theos/makefiles/tweak.mk /tmp/theos/makefiles/aggregate.mk
 
     - name: Install dpkg for packaging
       run: brew install dpkg
