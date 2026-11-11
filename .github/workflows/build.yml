@@ -24,9 +24,6 @@ jobs:
     - name: Install dpkg for packaging
       run: brew install dpkg
 
-    - name: Configure dpkg-deb for Theos
-      run: echo "_THEOS_PLATFORM_DPKG_DEB=dpkg-deb" >> $GITHUB_ENV
-
     - name: Make clean
       run: THEOS=/tmp/theos make clean
 
