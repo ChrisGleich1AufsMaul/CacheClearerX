@@ -43,7 +43,7 @@ jobs:
         ls -la packages/
 
     - name: Upload artifact
-      uses: actions/upload-artifac
+      uses: actions/upload-artifact
       with:
         name: package
         path: packages/
