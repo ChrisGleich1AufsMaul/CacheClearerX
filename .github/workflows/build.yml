@@ -14,32 +14,36 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Theos (with submodules)
+    - name: Set up Theos (mit Submodules)
       run: |
         cd /tmp
         rm -rf theos
         git clone --recursive https://github.com/theos/theos.git
-        echo "THEOS=/tmp/theos" >> $GITHUB_ENV
+        echo "THEOS=/tmp/theos" >>
         echo "PATH=$PATH:/tmp/theos/bin" >> $GITHUB_ENV
 
-    - name: Verify Theos files
+    - name: Verify Theos Makefiles
       run: |
-        echo "THEOS=$THEOS"
-        ls -la /tmp/theos/makefiles/common.mk /tmp/theos/makefiles/tweak.mk /tmp/theos/makefiles/aggregate.mk
+        if [ ! -f "$THEOS/makefiles/common.mk" ]; then
+          echo "❌ Theos Makefiles
+          exit 1
+        else
+          echo "✅ Theos Makefiles gefunden"
+        fi
 
-    - name: Install dpkg for packaging
+    - name: Install dpkg for packa
       run: brew install dpkg
 
     - name: Make clean
-      run: THEOS=/tmp/theos make clean
+      run: THEOS=/tmp/theos make c
 
     - name: Make package
       run: |
-        THEOS=/tmp/theos make package
+        THEOS=/tmp/theos make pack
         ls -la packages/
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifac
       with:
         name: package
         path: packages/
